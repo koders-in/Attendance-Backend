@@ -16,6 +16,7 @@ def process_attendance():
     if request.headers.get('User-Agent') == 'ESP8266HTTPClient':
         try:
             user_id = request.get_json()['user_id']
+           
         except KeyError as key:
             return f"unable to find {key} in request body"
 

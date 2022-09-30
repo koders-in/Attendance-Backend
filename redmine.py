@@ -42,7 +42,6 @@ def get_user_data(user_id):
         time_entries = redmine.time_entry.filter(user_id=user_id, spent_on=day)
         for x in time_entries:
             hours += x.hours
-
     profile_picture = get_profile_picture(discord_id)
     if profile_picture:
         thumbnail_url = "https://cdn.discordapp.com/avatars/" + str(discord_id) + "/" + profile_picture + ".png"

@@ -2,7 +2,9 @@ import os
 
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
+from dotenv import load_dotenv
 
+load_dotenv()
 
 client = Client(
     transport=AIOHTTPTransport(
