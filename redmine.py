@@ -1,21 +1,13 @@
 from redminelib import Redmine
+import libgravatar
 import datetime
 import requests
 import json
 import os
 
 
-def get_profile_picture(user_id):
-    url = "https://discordapp.com/api/v9/users/" + str(user_id)
-    headers = {
-        'Authorization': os.getenv('BOT_TOKEN'),
-    }
-    response = requests.request("GET", url, headers=headers)
-    response = json.loads(response.text)
-    try:
-        return response['avatar']
-    except Exception:
-        return None
+def get_profile_picture(user_email):
+    return libgravatar.Gravatar(user_email).get_image()
 
 
 def get_user_data(user_id):
@@ -44,8 +36,4 @@ def get_user_data(user_id):
             hours += x.hours
 
     profile_picture = get_profile_picture(discord_id)
-    if profile_picture:
-        thumbnail_url = "https://cdn.discordapp.com/avatars/" + str(discord_id) + "/" + profile_picture + ".png"
-    else:
-        thumbnail_url = "https://cdn.discordapp.com/embed/avatars/0.png"
-    return str(user['firstname'] + " "+ user['lastname']), position, opened_issues, total_issues, hours, thumbnail_url
+    return str(user['firstname'] + " "+ user['lastname']), position, opened_issues, total_issues, hours, profile_picture
