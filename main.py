@@ -36,7 +36,7 @@ def insert_attendance(user_id: str, _time: str):
     Post/Update user's attendance
     """
     current_date = datetime.now().strftime("%Y-%m-%d")
-    attendance = gql_fetch_user_attendance(user_id=int(user_id), date=current_date)['attendance']
+    attendance = gql_fetch_user_attendance(user_id=int(user_id), date=current_date)['attendance_attendance']
     if len(attendance) == 0:
         # new record for current date
         send_webhook(int(user_id), 'green')

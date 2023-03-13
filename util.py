@@ -31,7 +31,7 @@ def gql_fetch_user_attendance(user_id: int, offset: int = 0, date: str = None):
         query = gql(
             '''
             query getData($user_id: Int!, $offset: Int!) @cached {
-                attendance(where: {user_id: {_eq: $user_id}}, limit: 10, offset: $offset) {
+                attendance_attendance(where: {user_id: {_eq: $user_id}}, limit: 10, offset: $offset) {
                     id
                     date
                     user_id
@@ -51,7 +51,7 @@ def gql_fetch_user_attendance(user_id: int, offset: int = 0, date: str = None):
         query = gql(
             '''
             query getData($user_id: Int!, $date: date!) @cached {
-                attendance(where: {user_id: {_eq: $user_id}, date: {_eq: $date}}, limit: 1, order_by: {id: desc}) {
+                attendance_attendance(where: {user_id: {_eq: $user_id}, date: {_eq: $date}}, limit: 1, order_by: {id: desc}) {
                     id
                     date
                     user_id
@@ -70,6 +70,7 @@ def gql_fetch_user_attendance(user_id: int, offset: int = 0, date: str = None):
 
     try:
         result = client.execute(query, variable_values=variables)
+        print(result)
         return result
     except Exception as error:
         return error
@@ -95,7 +96,7 @@ def gql_add_user_attendance(time: str, user_id: int = None, date: str = None, at
         query = gql(
             '''
             mutation addNewAttendance($user_id: Int!, $time: time!, $date: date!, $comment: String) {
-                insert_attendance_one(object: {clock_in: $time, user_id: $user_id, date: $date, comment: $comment}) {
+                insert_attendance_attendance_one(object: {clock_in: $time, user_id: $user_id, date: $date, comment: $comment}) {
                     id
                     user_id
                     date
@@ -118,7 +119,7 @@ def gql_add_user_attendance(time: str, user_id: int = None, date: str = None, at
         query = gql(
             '''
             mutation updateAttendance($id: Int!, $time: time!, $comment: String) {
-                update_attendance_by_pk(pk_columns: {id: $id}, _set: {clock_out: $time, comment: $comment}) {
+                update_attendance_attendance_by_pk(pk_columns: {id: $id}, _set: {clock_out: $time, comment: $comment}) {
                     id
                     user_id
                     date

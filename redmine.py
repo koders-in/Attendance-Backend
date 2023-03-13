@@ -17,7 +17,6 @@ def get_user_data(user_id):
     for x in user:
         print(x)
     position = (user['custom_fields'][1]['value'])
-    discord_id = (user['custom_fields'][0]['value'])
     issues = redmine.issue.all(limit=100, assigned_to_id=user_id)
     opened_issues, total_issues = 0, 0
     for issue in issues:
@@ -35,5 +34,5 @@ def get_user_data(user_id):
         for x in time_entries:
             hours += x.hours
 
-    profile_picture = get_profile_picture(discord_id)
+    profile_picture = get_profile_picture(user.mail)
     return str(user['firstname'] + " "+ user['lastname']), position, opened_issues, total_issues, hours, profile_picture
