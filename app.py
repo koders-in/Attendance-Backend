@@ -30,7 +30,7 @@ def process_attendance():
             _time = datetime.datetime.now().strftime("%H:%M:%S")
             return insert_attendance(user_id, _time)
     else:
-        return "Wrong request"
+        return "Bad request"
 
 
 if __name__ == '__main__':
