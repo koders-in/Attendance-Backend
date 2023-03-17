@@ -17,7 +17,7 @@ def get_user_data(user_id):
     for x in user:
         print(x)
     position = (user['custom_fields'][1]['value'])
-    issues = redmine.issue.all(limit=100, assigned_to_id=user_id)
+    issues = redmine.issue.all(limit=10000, assigned_to_id=user_id)
     opened_issues, total_issues = 0, 0
     for issue in issues:
         if str(issue.status) != 'Closed':
