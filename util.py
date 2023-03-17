@@ -27,7 +27,6 @@ def gql_fetch_user_attendance(user_id: int, offset: int = 0, date: str = None):
     """
     if date is None:
         # get all data for user if no date is provided
-        # TODO => add offset
         query = gql(
             '''
             query getData($user_id: Int!, $offset: Int!) @cached {
