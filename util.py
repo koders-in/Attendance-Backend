@@ -76,7 +76,7 @@ def gql_fetch_user_attendance(user_id: int, offset: int = 0, date: str = None):
 
 
 def gql_add_user_attendance(time: str, user_id: int = None, date: str = None, attendance_id: int = None,
-                            is_clock_in: bool = True, comment: str = None):
+                            is_clock_in: bool = True, comment: str = "System Generated"):
     """
     GQL mutation to insert/update attendance
     :param time: time string in HH:MM:SS format
