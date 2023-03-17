@@ -1,4 +1,5 @@
 FROM python:3.8-slim-buster
+ENV TZ=Asia/Kolkata
 ENV HASURA_URL=
 ENV SECRET_KEY=
 ENV API_KEY=
