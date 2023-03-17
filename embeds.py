@@ -1,31 +1,56 @@
-from discord_webhook import DiscordWebhook, DiscordEmbed
+from slack_webhook import Slack
 from redmine import get_user_data
 import os
 
 WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
+def send_webhook(url, username, position, issues, hours, thumbnail_url, color):
+    if color == 'green':
+        color = 'good'
+    else:
+        color = 'danger'
+
+    slack = Slack(url=url)
+    response = slack.post(
+        attachments = [{
+            "fallback": "Attendance Marked",
+            "author_name": "Redmine marked an attendance",
+            "title": "User",
+            "text": username,
+            "color": color,
+            "actions": [
+                {
+                    "name": "action",
+                    "type": "button",
+                    "text": "Check attendance",
+                    "style": "",
+                    "value": "complete",
+                    "url": "https://attendance.koders.in"
+                },
+            ],
+                "fields": [
+                    {
+                        "title": "Position",
+                        "value": position,
+                        "short": False
+                    },
+                    {
+                        "title": "Issues",
+                        "value": issues,
+                        "short": True
+                    },
+                    {
+                        "title": "Spent time",
+                        "value": str(hours),
+                        "short": True
+                    }
+                ],
+            "thumb_url": thumbnail_url,
+        }]
+    )
+    print(response)
 
 def create_webhook(user_id, color):
     username, position, opened_issues, total_issues, hours, thumbnail_url = get_user_data(user_id)
     issues = str(opened_issues) + "/" + str(total_issues)
-    embed = DiscordEmbed(title="Attendance")
-    embed.add_embed_field(name="User", value=username, inline=False)
-    embed.add_embed_field(name="Position", value=position, inline=False)
-    embed.add_embed_field(name="Issues", value=issues)
-    embed.add_embed_field(name="SpentTime", value=str(hours))
-    if color == 'green':
-        embed.set_color('00ff85')
-    else:
-        embed.set_color('ff0000')
-    embed.set_thumbnail(url=thumbnail_url)
-    embed.set_footer(text="Marked at ")
-    embed.set_timestamp()
-    return embed
-
-
-def send_webhook(user_id, color):
-    webhook = DiscordWebhook(url=WEBHOOK_URL, rate_limit_retry=True)
-    embed = create_webhook(user_id, color)
-    webhook.add_embed(embed)
-    resp = webhook.execute()
-    print(resp)
+    send_webhook(WEBHOOK_URL, username, position, issues, hours, thumbnail_url, color)
